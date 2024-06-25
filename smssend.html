@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SMS Sending App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            width: 50%;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            resize: vertical;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>SMS Sending App</h1>
+        <form id="smsForm">
+            <label for="sender">Sender:</label>
+            <input type="text" id="sender" name="sender" required>
+
+            <label for="recipient">Recipient:</label>
+            <input type="text" id="recipient" name="recipient" required>
+
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" rows="4" required></textarea>
+
+            <button type="submit">Send SMS</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById("smsForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+            const sender = document.getElementById("sender").value;
+            const recipient = document.getElementById("recipient").value;
+            const message = document.getElementById("message").value;
+
+            // Perform AJAX request to send SMS using your backend API
+            // Example using fetch API:
+            fetch("/api/sms/send", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    sender: sender,
+                    recipient: recipient,
+                    message: message
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert("SMS sent successfully!");
+                // Optionally update UI or perform other actions
+            })
+            .catch(error => {
+                alert("An error occurred while sending SMS.");
+                console.error(error);
+            });
+        });
+    </script>
+</body>
+</html>
